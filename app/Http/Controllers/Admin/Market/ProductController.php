@@ -46,6 +46,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request, ImageService $imageService)
     {
+
         $inputs = $request->all();
 
         //date fixed

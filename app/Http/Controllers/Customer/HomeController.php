@@ -26,9 +26,13 @@ class HomeController extends Controller
         return view('customer.home', compact('slideShowImages', 'topBanners', 'middleBanners', 'bottomBanner', 'brands', 'mostVisitedProducts', 'offerProducts'));
     }
 
-    public function products()
+    public function products(Request $request)
     {
-        dd('hi');
-        // return view('customer.products');
+        if($request->search)
+        {
+            $products = Product::where('name' , 'LIKE' , "%" . $request->search . "%")->get();
+        }
+
+        return view('customer.market.product.products',compact('products'));
     }
 }
