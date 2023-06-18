@@ -634,7 +634,7 @@
 
                             <section class="">
                                 <input class="sidebar-input-text" type="text"
-                                    placeholder="جستجو بر اساس نام، برند ...">
+                                    placeholder="جستجو بر اساس نام، برند ..." value="{{request()->search}}" name="search">
                             </section>
                         </section>
 
@@ -731,8 +731,8 @@
                                 </section>
                             </section>
                             <section class="sidebar-price-range d-flex justify-content-between">
-                                <section class="p-1"><input type="text" placeholder="قیمت از ..."></section>
-                                <section class="p-1"><input type="text" placeholder="قیمت تا ..."></section>
+                                <section class="p-1"><input type="text" placeholder="قیمت از ..." name="min_price" value="{{request()->min_price}}"></section>
+                                <section class="p-1"><input type="text" placeholder="قیمت تا ..." name="max_price" value="{{request()->max_price}}"></section>
                             </section>
                         </section>
 
@@ -740,7 +740,7 @@
 
                         <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
                             <section class="sidebar-filter-btn d-grid gap-2">
-                                <button class="btn btn-danger" type="button">اعمال فیلتر</button>
+                                <button class="btn btn-danger" type="submit">اعمال فیلتر</button>
                             </section>
                         </section>
                     </form>
