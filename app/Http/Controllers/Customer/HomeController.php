@@ -89,12 +89,14 @@ class HomeController extends Controller
         $products = $products->when($request->brands, function ($products) use ($request) {
             $products->whereIn('brand_id', $request->brands);
         });
-        $products = $products->get();
+        $products = $products->paginate(1);
 
+        //forward queries in pages
+        $products->appends($request->query());
         //select original name brands
-
+        $selectedArrayBrands = [];
         if ($request->brands) {
-            $selectedArrayBrands = [];
+
             $selectedBrands = Brand::find($request->brands);
 
             foreach ($selectedBrands as $selectedBrand) {
