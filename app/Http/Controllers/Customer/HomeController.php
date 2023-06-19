@@ -34,6 +34,11 @@ class HomeController extends Controller
         $request['max_price'] = convertArabicToEnglish($request->max_price);
         $request['min_price'] = convertArabicToEnglish($request->min_price);
 
+        //brands
+
+        $brands = Brand::all();
+
+        //set sorting form fillter
         switch ($request->sort) {
             case "1":
                 $column = 'created_at';
@@ -80,8 +85,24 @@ class HomeController extends Controller
             })->when(!($request->min_price && $request->max_price), function ($query) {
                 $query->get();
             });
-            $products = $products->get();
-            // dd($products);
-        return view('customer.market.product.products', compact('products'));
+
+        $products = $products->when($request->brands, function ($products) use ($request) {
+            $products->whereIn('brand_id', $request->brands);
+        });
+        $products = $products->get();
+
+        //select original name brands
+
+        if ($request->brands) {
+            $selectedArrayBrands = [];
+            $selectedBrands = Brand::find($request->brands);
+
+            foreach ($selectedBrands as $selectedBrand) {
+                array_push($selectedArrayBrands, $selectedBrand->original_name);
+            }
+        }
+
+
+        return view('customer.market.product.products', compact('products', 'brands', 'selectedArrayBrands'));
     }
 }

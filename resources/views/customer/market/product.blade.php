@@ -192,7 +192,8 @@
                                     <p class="text-muted">قیمت کالا</p>
                                     <p class="text-muted"><span id="product_price"
                                             data-product-original-price={{ $product->price }}>{{ priceFormat($product->price) }}</span>
-                                        <span class="small">تومان</span></p>
+                                        <span class="small">تومان</span>
+                                    </p>
                                 </section>
 
 
@@ -302,7 +303,8 @@
                                                         </section>
                                                     @endif
                                                 @endauth
-                                                <a class="product-link" href="{{ route('customer.market.product', $relatedProduct) }}">
+                                                <a class="product-link"
+                                                    href="{{ route('customer.market.product', $relatedProduct) }}">
                                                     <section class="product-image">
                                                         <img class=""
                                                             src="{{ asset($relatedProduct->image['indexArray']['medium']) }}"

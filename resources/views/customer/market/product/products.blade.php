@@ -634,7 +634,8 @@
 
                             <section class="">
                                 <input class="sidebar-input-text" type="text"
-                                    placeholder="جستجو بر اساس نام، برند ..." value="{{request()->search}}" name="search">
+                                    placeholder="جستجو بر اساس نام، برند ..." value="{{ request()->search }}"
+                                    name="search">
                             </section>
                         </section>
 
@@ -651,69 +652,20 @@
                             </section>
 
                             <section class="sidebar-brand-wrapper">
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="1" id="1">
-                                    <label class="form-check-label d-flex justify-content-between" for="1">
-                                        <span>شیائومی</span>
-                                        <span>xiaomi</span>
-                                    </label>
-                                </section>
 
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="2" id="2">
-                                    <label class="form-check-label d-flex justify-content-between" for="2">
-                                        <span>سامسونگ</span>
-                                        <span>samsung</span>
-                                    </label>
-                                </section>
+                                @foreach ($brands as $brand)
+                                    <section class="form-check sidebar-brand-item">
+                                        <input class="form-check-input" type="checkbox" name="brands[]"
+                                            {{ collect(request()->brands)->contains($brand->id) ? 'checked' : '' }}
+                                            value="{{ $brand->id }}" id="{{ $brand->id }}">
+                                        <label class="form-check-label d-flex justify-content-between"
+                                            for="{{ $brand->id }}">
+                                            <span>{{ $brand->persian_name }}</span>
+                                            <span>{{ $brand->original_name }}</span>
+                                        </label>
+                                    </section>
+                                @endforeach
 
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="3" id="3">
-                                    <label class="form-check-label d-flex justify-content-between" for="3">
-                                        <span>سونی</span>
-                                        <span>sony</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="4" id="4">
-                                    <label class="form-check-label d-flex justify-content-between" for="4">
-                                        <span>امرسان</span>
-                                        <span>emersun</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="5" id="5">
-                                    <label class="form-check-label d-flex justify-content-between" for="5">
-                                        <span>ال جی</span>
-                                        <span>lg</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="6" id="6">
-                                    <label class="form-check-label d-flex justify-content-between" for="6">
-                                        <span>جی پلاس</span>
-                                        <span>g+</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="7" id="7">
-                                    <label class="form-check-label d-flex justify-content-between" for="7">
-                                        <span>پارس خزر</span>
-                                        <span>pars khazar</span>
-                                    </label>
-                                </section>
-
-                                <section class="form-check sidebar-brand-item">
-                                    <input class="form-check-input" type="checkbox" value="8" id="8">
-                                    <label class="form-check-label d-flex justify-content-between" for="8">
-                                        <span>دیاموند</span>
-                                        <span>diamond</span>
-                                    </label>
-                                </section>
                             </section>
                         </section>
 
@@ -731,8 +683,10 @@
                                 </section>
                             </section>
                             <section class="sidebar-price-range d-flex justify-content-between">
-                                <section class="p-1"><input type="text" placeholder="قیمت از ..." name="min_price" value="{{request()->min_price}}"></section>
-                                <section class="p-1"><input type="text" placeholder="قیمت تا ..." name="max_price" value="{{request()->max_price}}"></section>
+                                <section class="p-1"><input type="text" placeholder="قیمت از ..." name="min_price"
+                                        value="{{ request()->min_price }}"></section>
+                                <section class="p-1"><input type="text" placeholder="قیمت تا ..." name="max_price"
+                                        value="{{ request()->max_price }}"></section>
                             </section>
                         </section>
 
@@ -748,35 +702,59 @@
                 <main id="main-body" class="main-body col-md-9">
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
                         <section class="filters mb-3">
-                            <span class="d-inline-block border p-1 rounded bg-light">نتیجه جستجو برای : <span
-                                    class="badge bg-info text-dark">"کتاب اثر مرک"</span></span>
-                            <span class="d-inline-block border p-1 rounded bg-light">برند : <span
-                                    class="badge bg-info text-dark">"کتاب"</span></span>
-                            <span class="d-inline-block border p-1 rounded bg-light">دسته : <span
-                                    class="badge bg-info text-dark">"کتاب"</span></span>
-                            <span class="d-inline-block border p-1 rounded bg-light">قیمت از : <span
-                                    class="badge bg-info text-dark">25,000 تومان</span></span>
-                            <span class="d-inline-block border p-1 rounded bg-light">قیمت تا : <span
-                                    class="badge bg-info text-dark">360,000 تومان</span></span>
+                            @if (request()->search)
+                                <span class="d-inline-block border p-1 rounded bg-light">نتیجه جستجو برای :
+                                    <span class="badge bg-info text-dark">
+                                        {{ request()->search }}
+                                    </span>
+                                </span>
+                            @endif
+                            @if (request()->brands)
+                                <span class="d-inline-block border p-1 rounded bg-light">برند :
+                                    <span class="badge bg-info text-dark">
+                                        {{ implode(' , ', $selectedArrayBrands) }}
+                                    </span>
+                                </span>
+                            @endif
 
+                            <span class="d-inline-block border p-1 rounded bg-light">دسته :
+                                <span class="badge bg-info text-dark">
+                                    "کتاب"
+                                </span>
+                            </span>
+
+                            @if (request()->min_price)
+                                <span class="d-inline-block border p-1 rounded bg-light">قیمت از :
+                                    <span class="badge bg-info text-dark">
+                                        {{ request()->min_price }} تومان
+                                    </span>
+                                </span>
+                            @endif
+                            @if (request()->max_price)
+                                <span class="d-inline-block border p-1 rounded bg-light">قیمت تا :
+                                    <span class="badge bg-info text-dark">
+                                        {{ request()->max_price }} تومان
+                                    </span>
+                                </span>
+                            @endif
                         </section>
                         <section class="sort ">
                             <span>مرتب سازی بر اساس : </span>
                             <a class="btn {{ request()->sort == 1 ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0"
-                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '1']) }}">جدیدترین</a>
+                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '1', 'min_price' => request()->min_price, 'max_price' => request()->max_price, 'brands' => request()->brands]) }}">جدیدترین</a>
                             <a class="btn {{ request()->sort == 2 ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0"
-                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '2']) }}">محبوب
+                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '2', 'min_price' => request()->min_price, 'max_price' => request()->max_price, 'brands' => request()->brands]) }}">محبوب
                                 ترین</a>
                             <a class="btn {{ request()->sort == 3 ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0"
-                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '3']) }}">گران
+                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '3', 'min_price' => request()->min_price, 'max_price' => request()->max_price, 'brands' => request()->brands]) }}">گران
                                 ترین</a>
                             <a class="btn {{ request()->sort == 4 ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0"
-                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '4']) }}">ارزان
+                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '4', 'min_price' => request()->min_price, 'max_price' => request()->max_price, 'brands' => request()->brands]) }}">ارزان
                                 ترین</a>
                             <a class="btn {{ request()->sort == 5 ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0"
-                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '5']) }}">پربازدیدترین</a>
+                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '5', 'min_price' => request()->min_price, 'max_price' => request()->max_price, 'brands' => request()->brands]) }}">پربازدیدترین</a>
                             <a class="btn {{ request()->sort == 6 ? 'btn-info' : 'btn-light' }} btn-sm px-1 py-0"
-                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '6']) }}">پرفروش
+                                href="{{ route('customer.products', ['search' => request()->search, 'sort' => '6', 'min_price' => request()->min_price, 'max_price' => request()->max_price, 'brands' => request()->brands]) }}">پرفروش
                                 ترین</a>
                         </section>
 
