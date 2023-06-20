@@ -27,7 +27,7 @@ class MenuRequest extends FormRequest
             'title' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z۰-۹0-9ء-ي.,\/;&؟? ]+$/u',
             'url' => 'required|max:120|min:2|regex:/^[a-zA-Z0-9-][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/u',
             'status' => 'required|numeric|in:0,1',
-            'parent_id' => 'nullable|min:1|max::10000000000|regex:/^[0-9]+$/u|exists:menus,id',
+            'parent_id' => 'nullable|min:1|max:10000000000|regex:/^[0-9]+$/u|exists:menus,id',
         ];
     }
 }

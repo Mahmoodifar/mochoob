@@ -19,7 +19,7 @@
                     <section class="search-box">
                         <section class="search-textbox">
                             <span><i class="fa fa-search"></i></span>
-                            <form action="{{route('customer.products',['sort' => '1', 'min_price' => request()->min_price, 'max_price' => request()->max_price, 'brands' => request()->brands ])}}" method="get">
+                            <form action="{{route('customer.products',[ 'category' => request()->category ? request()->category->id : null,'search' => request()->search, 'sort' => request()->sort, 'min_price' => request()->min_price, 'max_price' => request()->max_price, 'brands' => request()->brands])}}" method="get">
                             <input id="search" type="text" class="" name="search" value="{{request()->search}}" placeholder="جستجو ..."
                                 autocomplete="off">
                             </form>

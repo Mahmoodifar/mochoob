@@ -53,7 +53,7 @@
                                     <select name="parent_id" id="" class="form-control form-control-sm">
                                         <option value="">دسته اصلی</option>
                                         @foreach ($productCategories as $category)
-                                            <option value="{{ $category->id }}" @if (old('parent_id',$productCategory->parent_id) == $productCategory->id) selected @endif>
+                                            <option value="{{ $category->id }}" @if (old('parent_id', $category->parent_id) == $productCategory->id) selected @endif>
                                                 {{ $category->name }}
                                             </option>
                                         @endforeach

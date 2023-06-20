@@ -78,7 +78,7 @@ class CategoryController extends Controller
      */
     public function edit(ProductCategory $productCategory)
     {
-        $productCategories = ProductCategory::where('parent_id',null)->get()->except($productCategory->id);
+        $productCategories = ProductCategory::all()->except($productCategory->id);
         return view('Admin.market.category.edit', compact('productCategories', 'productCategory'));
     }
 

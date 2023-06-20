@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Content\Banner;
 use App\Models\Market\Product;
 use App\Http\Controllers\Controller;
+use App\Models\Market\ProductCategory;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -26,8 +27,14 @@ class HomeController extends Controller
         return view('customer.home', compact('slideShowImages', 'topBanners', 'middleBanners', 'bottomBanner', 'brands', 'mostVisitedProducts', 'offerProducts'));
     }
 
-    public function products(Request $request)
+    public function products(Request $request, ProductCategory $category = null)
     {
+        //select category
+        if ($category) {
+            $productModel = $category->products();
+        } else {
+            $productModel = new Product();
+        }
 
         $request['max_price'] = convertPersianToEnglish($request->max_price);
         $request['min_price'] = convertPersianToEnglish($request->min_price);
@@ -37,7 +44,7 @@ class HomeController extends Controller
         //brands
 
         $brands = Brand::all();
-
+        $categories = ProductCategory::whereNull('parent_id')->get();
         //set sorting form fillter
         switch ($request->sort) {
             case "1":
@@ -73,9 +80,9 @@ class HomeController extends Controller
 
 
         if ($request->search) {
-            $query = Product::where('name', 'LIKE', "%" . $request->search . "%")->orderBy($column, $direction);
+            $query = $productModel->where('name', 'LIKE', "%" . $request->search . "%")->orderBy($column, $direction);
         } else {
-            $query = Product::orderBy($column, $direction);
+            $query = $productModel->orderBy($column, $direction);
         }
         $products = $request->min_price && $request->max_price ? $query->whereBetween('price', [$request->min_price, $request->max_price]) :
             $query->when($request->min_price, function ($query) use ($request) {
@@ -89,7 +96,9 @@ class HomeController extends Controller
         $products = $products->when($request->brands, function ($products) use ($request) {
             $products->whereIn('brand_id', $request->brands);
         });
-        $products = $products->paginate(1);
+
+        //TODO create options for number page in customer.products
+        $products = $products->paginate(15);
 
         //forward queries in pages
         $products->appends($request->query());
@@ -105,6 +114,6 @@ class HomeController extends Controller
         }
 
 
-        return view('customer.market.product.products', compact('products', 'brands', 'selectedArrayBrands'));
+        return view('customer.market.product.products', compact('products', 'brands', 'selectedArrayBrands', 'categories'));
     }
 }

@@ -25,7 +25,7 @@ class CopanRequest extends FormRequest
     {
         return [
             'code' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z۰-۹0-9ء-ي.,-ـ ]+$/u',
-            'user_id' => 'required_if:type,==,1|min:1|max::10000000000|regex:/^[0-9]+$/u|exists:users,id',
+            'user_id' => 'required_if:type,==,1|min:1|max:10000000000|regex:/^[0-9]+$/u|exists:users,id',
             'discount_ceiling' => 'required|min:1|max:100000000|numeric',
             'status' => 'required|numeric|in:0,1',
             'amount' => [(request()->amount_type == 0) ? 'max:100': '','required','numeric'],
