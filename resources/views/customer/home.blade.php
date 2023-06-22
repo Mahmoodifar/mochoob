@@ -307,7 +307,7 @@
                             @foreach ($brands as $brand)
                                 <section class="item">
                                     <section class="brand-item">
-                                        <a href="{{ urldecode($brand->url) }}"><img class="rounded-2"
+                                        <a href="{{ route('customer.products',['brands[]' => $brand->id]) }}"><img class="rounded-2"
                                                 src="{{ asset($brand->logo['indexArray']['medium']) }}"
                                                 alt=""></a>
                                     </section>
